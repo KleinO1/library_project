@@ -1,5 +1,7 @@
 #include "Book.h"
 #include <iostream>
+#include <stdexcept>
+#include <ctime>
 
 Book::Book()
     : title(""),
@@ -22,7 +24,26 @@ Book::Book(const std::string& titleValue,
     isbn = isbnValue;
     isAvailable = true;
     borrowedBy.clear();
+
+    std::time_t now = std::time(nullptr);
+    std::tm* localTime = std::localtime(&now);
+
+    int currentYear = 0;
+    if (localTime != nullptr) {
+        currentYear = 1900 + localTime->tm_year;
+    } else {
+        currentYear = 2025;
+    }
+
+    if (year < 1450 || year > currentYear) {
+        throw std::invalid_argument("Некорректный год издания книги");
+    }
+
+    if (isbn.empty()) {
+        throw std::invalid_argument("ISBN не может быть пустым");
+    }
 }
+
 
 std::string Book::getTitle() const {
     return title;
@@ -49,14 +70,23 @@ std::string Book::getBorrowedBy() const {
 }
 
 void Book::borrowBook(const std::string& userName) {
-    if (userName.empty()) {
-        return;
+    if (!isAvailable) {
+        throw std::runtime_error("Книга уже выдана");
     }
+
+    if (userName.empty()) {
+        throw std::invalid_argument("Имя пользователя не может быть пустым");
+    }
+
     isAvailable = false;
     borrowedBy = userName;
 }
 
 void Book::returnBook() {
+    if (isAvailable) {
+        throw std::runtime_error("Книга уже находится в библиотеке");
+    }
+
     isAvailable = true;
     borrowedBy.clear();
 }

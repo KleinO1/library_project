@@ -37,4 +37,21 @@ void Library::displayAllUsers() const {
             u.displayProfile();
         }
     }
+    Book* Library::findBookByISBN(const std::string& isbn) {
+        for (auto& b : books) {
+            if (b.getIsbn() == isbn) {
+                return &b;
+            }
+        }
+        return nullptr;
+    }
+
+    User* Library::findUserByName(const std::string& name) {
+        for (auto& u : users) {
+            if (u.getName() == name) {
+                return &u;
+            }
+        }
+        return nullptr;
+    }
 }

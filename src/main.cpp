@@ -35,6 +35,10 @@ int main() {
     catch (const std::exception& ex) {
         std::cout << "Возникла ошибка: " << ex.what() << std::endl;
     }
+    Book* found = lib.findBookByISBN("ISBN-TEST");
+    if (found != nullptr) {
+        std::cout << "\nНайдена книга по ISBN: " << found->getTitle() << "\n";
+    }
 
     return 0;
 }

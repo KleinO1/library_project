@@ -21,6 +21,9 @@ public:
 
     void displayAllBooks() const;
     void displayAllUsers() const;
+
+    Book* findBookByISBN(const std::string& isbn);
+    User* findUserByName(const std::string& name);
 };
 
 #endif

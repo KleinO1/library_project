@@ -1,16 +1,40 @@
+#include <iostream>
+#include <exception>
 #include "Library.h"
 
 int main() {
     Library lib("data/library_data.txt");
 
-    Book book("Пример книги", "Автор", 2000, "ISBN-TEST");
-    User user("Иванов", "USR_001", 3);
+    Book book("Книга", "Автор", 1451, "ISBN-TEST");
+    User user("Иванов", "USR_001", 7);
 
     lib.addBook(book);
     lib.addUser(user);
 
+    std::cout << "тест\n";
     lib.displayAllBooks();
     lib.displayAllUsers();
+
+    std::cout << "\nтест\n";
+
+    try {
+        book.borrowBook(user.getName());
+        user.addBook(book.getIsbn());
+
+        std::cout << "\nПосле выдачи:\n";
+        book.displayInfo();
+        user.displayProfile();
+
+        book.returnBook();
+        user.removeBook(book.getIsbn());
+
+        std::cout << "\nПосле возврата:\n";
+        book.displayInfo();
+        user.displayProfile();
+    }
+    catch (const std::exception& ex) {
+        std::cout << "Возникла ошибка: " << ex.what() << std::endl;
+    }
 
     return 0;
 }

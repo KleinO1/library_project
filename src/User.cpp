@@ -15,8 +15,16 @@ User::User(const std::string& nameValue,
       userId(idValue),
       maxBooksAllowed(maxBooks)
 {
+    if (name.empty()) {
+        throw std::invalid_argument("Имя пользователя не может быть пустым");
+    }
+
+    if (userId.empty()) {
+        throw std::invalid_argument("userId не может быть пустым");
+    }
+
     if (maxBooksAllowed <= 0) {
-        maxBooksAllowed = 1;
+        throw std::invalid_argument("Максимум книг должен быть больше 0");
     }
 }
 
@@ -41,17 +49,33 @@ bool User::canBorrowMore() const {
 }
 
 void User::addBook(const std::string& isbn) {
+    if (!canBorrowMore()) {
+        throw std::runtime_error("Пользователь достиг лимита книг");
+    }
+
+    if (isbn.empty()) {
+        throw std::invalid_argument("ISBN не может быть пустым");
+    }
+
     borrowedBooks.push_back(isbn);
 }
 
 void User::removeBook(const std::string& isbn) {
+    bool found = false;
+
     for (std::size_t i = 0; i < borrowedBooks.size(); ++i) {
         if (borrowedBooks[i] == isbn) {
             borrowedBooks.erase(borrowedBooks.begin() + static_cast<long>(i));
+            found = true;
             break;
         }
     }
+
+    if (!found) {
+        throw std::runtime_error("Пользователь не брал книгу с таким ISBN");
+    }
 }
+
 
 void User::displayProfile() const {
     std::cout << "Пользователь: " << name << " (" << userId << ")\n";

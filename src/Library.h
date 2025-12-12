@@ -28,6 +28,8 @@ public:
     void borrowBook(const std::string& userName, const std::string& isbn);
     void returnBook(const std::string& isbn);
 
+    void saveToFile();
+    void loadFromFile();
 };
 
 #endif

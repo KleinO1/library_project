@@ -1,5 +1,6 @@
 #include "Library.h"
 #include <iostream>
+#include <stdexcept>
 
 Library::Library()
     : dataFile("")
@@ -53,5 +54,46 @@ void Library::displayAllUsers() const {
             }
         }
         return nullptr;
+    }
+
+    void Library::borrowBook(const std::string& userName, const std::string& isbn) {
+        Book* book = findBookByISBN(isbn);
+        if (book == nullptr) {
+            throw std::runtime_error("Книга с таким ISBN не найдена");
+        }
+
+        User* user = findUserByName(userName);
+        if (user == nullptr) {
+            throw std::runtime_error("Пользователь с таким именем не найден");
+        }
+
+        if (!user->canBorrowMore()) {
+            throw std::runtime_error("Пользователь достиг лимита книг");
+        }
+        book->borrowBook(userName);
+        user->addBook(isbn);
+    }
+
+    void Library::returnBook(const std::string& isbn) {
+        Book* book = findBookByISBN(isbn);
+        if (book == nullptr) {
+            throw std::runtime_error("Книга с таким ISBN не найдена");
+        }
+
+        if (book->getIsAvailable()) {
+            throw std::runtime_error("Книга уже находится в библиотеке");
+        }
+
+        std::string userName = book->getBorrowedBy();
+        if (userName.empty()) {
+            throw std::runtime_error("Не удалось определить, кто взял книгу");
+        }
+
+        User* user = findUserByName(userName);
+        if (user == nullptr) {
+            throw std::runtime_error("Пользователь, на которого числится книга, не найден");
+        }
+        user->removeBook(isbn);
+        book->returnBook();
     }
 }

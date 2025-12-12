@@ -4,7 +4,7 @@
 
 int main() {
     Library lib("data/library_data.txt");
-
+    
     Book book("Книга", "Автор", 1451, "ISBN-TEST");
     User user("Иванов", "USR_001", 7);
 
@@ -15,29 +15,19 @@ int main() {
     lib.displayAllBooks();
     lib.displayAllUsers();
 
-    std::cout << "\nтест\n";
-
     try {
-        book.borrowBook(user.getName());
-        user.addBook(book.getIsbn());
-
         std::cout << "\nПосле выдачи:\n";
-        book.displayInfo();
-        user.displayProfile();
-
-        book.returnBook();
-        user.removeBook(book.getIsbn());
+        lib.borrowBook("Иванов", "ISBN-TEST");
+        lib.displayAllBooks();
+        lib.displayAllUsers();
 
         std::cout << "\nПосле возврата:\n";
-        book.displayInfo();
-        user.displayProfile();
+        lib.returnBook("ISBN-TEST");
+        lib.displayAllBooks();
+        lib.displayAllUsers();
     }
     catch (const std::exception& ex) {
-        std::cout << "Возникла ошибка: " << ex.what() << std::endl;
-    }
-    Book* found = lib.findBookByISBN("ISBN-TEST");
-    if (found != nullptr) {
-        std::cout << "\nНайдена книга по ISBN: " << found->getTitle() << "\n";
+        std::cout << "Ошибка: " << ex.what() << std::endl;
     }
 
     return 0;

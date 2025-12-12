@@ -24,6 +24,10 @@ public:
 
     Book* findBookByISBN(const std::string& isbn);
     User* findUserByName(const std::string& name);
+
+    void borrowBook(const std::string& userName, const std::string& isbn);
+    void returnBook(const std::string& isbn);
+
 };
 
 #endif

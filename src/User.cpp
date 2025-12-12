@@ -1,5 +1,6 @@
 #include "User.h"
 #include <iostream>
+#include <stdexcept>
 
 User::User()
     : name(""),

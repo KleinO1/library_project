@@ -1,0 +1,37 @@
+BOOK
+Title: Война и мир
+Author: Лев Толстой
+Year: 1869
+ISBN: 978-5-17-70490-8
+Available: yes
+BorrowedBy: 
+
+BOOK
+Title: Преступление и наказание
+Author: Федор Достоевский
+Year: 1866
+ISBN: 978-5-17-77192-5
+Available: no
+BorrowedBy: Иванов
+
+BOOK
+Title: C++ Primer
+Author: Stanley Lippman
+Year: 2012
+ISBN: 978-0-13-110388-8
+Available: yes
+BorrowedBy: 
+
+---USERS---
+
+USER
+Name: Иванов
+UserID: USR_001
+BorrowedBooks: 978-5-17-77192-5
+MaxBooks: 3
+
+USER
+Name: Петров
+UserID: USR_002
+BorrowedBooks: 
+MaxBooks: 3
